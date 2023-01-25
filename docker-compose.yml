@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  php-fpm:
+    build: .docker/php
+    container_name: "spec-pattern-php"
+    entrypoint: .docker/entrypoint.sh
+    environment:
+      - COMPOSER_MEMORY_LIMIT=2G
+      - ENVIRONMENT=local
+    volumes:
+      - .:/var/www
+    networks:
+      - spec-pattern-network
+
+  nginx:
+    build: .docker/nginx
+    container_name: "spec-pattern-nginx"
+    restart: always
+    tty: true
+    ports:
+      - "8481:80"
+    volumes:
+      - .:/var/www
+    networks:
+      - spec-pattern-network
+    depends_on:
+      - php-fpm
+
+networks:
+  spec-pattern-network:
+    driver: bridge

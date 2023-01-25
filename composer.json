@@ -1,0 +1,29 @@
+{
+  "name": "ricardokovalski/frauder",
+  "description": "Implementação do Pattern Specification.",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Ricardo Kovalski Cruz",
+      "email": "ricardokovalskicruz@gmail.com",
+      "role": "Maintainer"
+    }
+  ],
+  "license": "MIT",
+  "keywords": ["design", "design-pattern", "pattern", "specification", "php"],
+  "require": {
+    "php": "^8.2",
+    "ext-json": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "RicardoKovalski\\SpecPattern\\": "src/",
+      "RicardoKovalski\\Examples\\": "examples/"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
