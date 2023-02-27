@@ -9,7 +9,7 @@ use RicardoKovalski\Examples\Order\Specifications\OrderPendentSpec;
 use RicardoKovalski\Examples\Order\Specifications\OrderWithApiSourceAlreadyPaidSpec;
 use RicardoKovalski\Examples\Order\Specifications\TransactionCreditCardSpec;
 
-require __DIR__ . '../../vendor/autoload.php';
+require __DIR__ . '/../../vendor/autoload.php';
 
 $orderRefund = new Order(
     status: 'refund',
@@ -18,7 +18,7 @@ $orderRefund = new Order(
     discount: 3.50,
     freight: 2.99,
     origin: 'api',
-    createdAt: \DateTimeImmutable::createFromMutable(new \DateTime('2022-01-07 12:58:35')),
+    createdAt: new \DateTimeImmutable('2022-01-07 12:58:35'),
     paidAt: new \DateTime('2022-01-08 22:56:45'),
     refundAt: new \DateTime('2022-01-09 04:34:21')
 );
@@ -36,7 +36,7 @@ $orderPaidApi = new Order(
     discount: 13.50,
     freight: 5.99,
     origin: 'api',
-    createdAt: \DateTimeImmutable::createFromMutable(new \DateTime('2022-01-07 15:15:17')),
+    createdAt: new \DateTimeImmutable('2022-01-07 15:15:17'),
     paidAt: new \DateTime('2022-01-09 22:56:45')
 );
 
@@ -46,24 +46,24 @@ $transaction2 = new Transaction(
     total: 290.47
 );
 
-$order = new Order(
+$orderPaidCheckout = new Order(
     status: 'paid',
     totalItems: 297.98,
     total: 290.47,
     discount: 13.50,
     freight: 5.99,
     origin: 'checkout',
-    createdAt: \DateTimeImmutable::createFromMutable(new \DateTime('2023-01-10 09:45:36')),
+    createdAt: new \DateTimeImmutable('2023-01-10 09:45:36'),
     paidAt: new \DateTime('2022-01-13 21:17:56')
 );
 
-$transaction = new Transaction(
-    order: $order,
+$transaction3 = new Transaction(
+    order: $orderPaidCheckout,
     type: 'cartao',
     total: 290.47
 );
 
-$transactionCreditCardSpec = new TransactionCreditCardSpec($transaction);
+$transactionCreditCardSpec = new TransactionCreditCardSpec($transaction3);
 $orderAlreadyRefundedSpec = new OrderAlreadyRefundedSpec();
 $orderPendentSpec = new OrderPendentSpec();
 $orderWithApiSourceAlreadyPaidSpec = new OrderWithApiSourceAlreadyPaidSpec();
@@ -72,4 +72,7 @@ $result = $transactionCreditCardSpec
     ->and($orderAlreadyRefundedSpec->not())
     ->and($orderPendentSpec->not())
     ->and($orderWithApiSourceAlreadyPaidSpec)
-    ->isSatisfiedBy($order);
+    ->isSatisfiedBy($orderPaidCheckout);
+
+echo "<pre>";
+var_dump($result);
