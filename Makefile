@@ -34,3 +34,13 @@ first-install:    	## Execute the first start of the project.
 	make up
 	make composer-install
 	make composer-dump
+
+coverage:
+	docker run -it --rm \
+		-e XDEBUG_MODE=coverage \
+		--entrypoint ./vendor/bin/phpunit \
+		--volume ${PWD}:/var/www \
+		--workdir /var/www \
+		specification_php-fpm \
+		--whitelist tests/ \
+		--coverage-html tests/build/

@@ -12,6 +12,8 @@ services:
       - .:/var/www
     networks:
       - spec-pattern-network
+    extra_hosts:
+      - host.docker.internal:host-gateway
 
   nginx:
     build: .docker/nginx

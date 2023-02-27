@@ -16,9 +16,11 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSI
 WORKDIR /var/www
 RUN rm -rf /var/www/html
 
-COPY ./php.ini.development "$PHP_INI_DIR/php.ini"
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=2.1.11
+ENV PHP_IDE_CONFIG="serverName=specification"
+COPY ./php.ini.development "$PHP_INI_DIR/php.ini"
+COPY ./xdebug.ini "$PHP_INI_DIR/conf.d/z-xdebug.ini"
 
 RUN ln -s public html
 
